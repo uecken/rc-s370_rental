@@ -15,6 +15,7 @@ def app():
         age:int = st.text_input('年齢','-',max_chars=3)
         hometown:str = st.text_input('出身','-',max_chars=15)
         register_place:str = st.text_input('登録場所','-',max_chars=15)
+        register_date:str = st.text_input('登録日','-',max_chars=15)
         phone_number:str = st.text_input('電話番号','-',max_chars=15)
         register_date:str = 1111
         data={
@@ -39,7 +40,7 @@ def app():
                 st.success('ユーザー登録完了')
 
 
-    # 読み取り履歴を取得
+    # ユーザー一覧を取得
     url_reads= endpoint+ '/users'
     res_read= requests.get(url_reads)
     reads= res_read.json()
@@ -49,6 +50,8 @@ def app():
         read_dict= {}
         read_dict['name']= read['name']
         read_dict['id_']= read['id_']
+        read_dict['register_place']= read['register_place']
+        read_dict['register_date']= read['register_date']
         reads_dict.append(read_dict)
 
     read_list= pd.DataFrame(reads_dict)

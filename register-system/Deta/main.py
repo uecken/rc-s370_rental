@@ -13,6 +13,7 @@ rooms = deta.Base("fastapi-rooms")
 bookings = deta.Base("fastapi-bookings")
 readers = deta.Base("fastapi-readers")
 reads2 = deta.Base("fastapi-reads2")
+objects2 = deta.Base("fastapi-objects2")
 
 app = FastAPI()
 
@@ -35,10 +36,10 @@ class Booking(BaseModel):
   start_date_time: str
   end_date_time: str
 
-class Object(BaseModel):
-  devide_id: str  #mac address
-  card_id: str
-  read_date: str
+class Object2(BaseModel):
+  name: str  
+  id_: str
+  register_place: str
 
 #どのReaderで誰が何をいつ使ったか分かるようにするため、
 #まずReader MAC ID/object/設置場所の紐づけを行う
@@ -73,6 +74,7 @@ def create_room(room: Room):
   room= rooms.put(room.dict())
   return json.dumps(room)
 
+
 @app.get("/bookings")
 def read_booking():
   return next(bookings.fetch())
@@ -81,6 +83,7 @@ def read_booking():
 def create_booking(booking: Booking):
   booking= bookings.put(booking.dict())
   return json.dumps(booking)
+
 
 @app.get("/readers")
 def read_reader():
@@ -106,6 +109,20 @@ async def read_object_id(object_id):
 def create_read(read2: Read2):
   read2= reads2.put(read2.dict())
   return json.dumps(read2)
+
+
+@app.get("/objects2")
+def read_object2():
+  return next(objects2.fetch())
+
+
+@app.post("/objects2",status_code=200)
+def create_object2(object2: Object2):
+  object2= objects2.put(object2.dict())
+  return json.dumps(object2)
+
+
+
 
 '''
 @app.get("/read_regist/")
