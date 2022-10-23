@@ -24,6 +24,7 @@ class User(BaseModel):
   hometown: str
   phone_number: str
   register_place: str
+  register_date: str
 
 class Room(BaseModel):
   room_name: str
@@ -52,7 +53,7 @@ class Reader(BaseModel):
 class Read2(BaseModel):
   object_id0: str
   object_id1: str
-  object_id2: str
+  pbject_id2: str
   reader_mac_id: str
   read_date: str
 
