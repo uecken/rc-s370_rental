@@ -2,12 +2,17 @@ import streamlit as st
 import requests
 import json
 import pandas as pd
+import datetime
+from zoneinfo import ZoneInfo
 
 #endpoint= 'https://uo41eu.deta.dev'
 endpoint= 'https://1hl0lg.deta.dev'
 
 def app():
     st.title('リーダー登録')
+
+    tdatetime = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
+    tstr = tdatetime.strftime('%Y-%m-%d %H:%M:%S')
 
 
     with st.form(key='reader'):
@@ -19,7 +24,8 @@ def app():
             'reader_name':reader_name,
             'reader_mac_id':reader_mac_id,
             'reader_place':reader_place,
-            'reader_and_objects':reader_and_objects
+            'reader_and_objects':reader_and_objects,
+            'register_date':tstr
         }
         submit_button = st.form_submit_button(label='登録')
 
@@ -46,9 +52,10 @@ def app():
         read_dict['reader_mac_id']= read['reader_mac_id']
         read_dict['reader_place']= read['reader_place']
         read_dict['reader_and_objects']= read['reader_and_objects']
+        read_dict['register_date']= read['register_date']
         reads_dict.append(read_dict)
 
-    read_list= pd.DataFrame(reads_dict)
+    read_list= pd.DataFrame(reads_dict).sort_values('register_date',ascending=True)
 
     st.write('### リーダー一覧')
     #st.table(read_list)

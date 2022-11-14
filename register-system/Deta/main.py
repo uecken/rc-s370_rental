@@ -49,13 +49,18 @@ class Reader(BaseModel):
   reader_mac_id: str
   reader_place: str
   reader_and_objects: str
+  register_date: str
 
 class Read2(BaseModel):
   object_id0: str
   object_id1: str
-  pbject_id2: str
+  object_id2: str
   reader_mac_id: str
   read_date: str
+
+#class Read2_query(BaseModel):
+#  read_date?gt: str
+
 
 @app.get("/users")
 def read_user():
@@ -111,6 +116,14 @@ def create_read(read2: Read2):
   read2= reads2.put(read2.dict())
   return json.dumps(read2)
 
+"""
+@app.post("/reads_query",status_code=200)
+def query_read():
+  #query2 ={"query": [{"read_date?gt":'2022-11-04 05:49:18'}],"limit":5}
+  query2 ={"read_date?gt":"2022-11-04 05:49:18"}
+  readquery= reads2.fetch(query2)
+  return json.dumps(readquery)
+"""
 
 @app.get("/objects2")
 def read_object2():
@@ -135,6 +148,11 @@ async def read_regist(object_id: str="default")
 '''
 @app.get("/items2/{item_id}")
 async def read_item(item_id: str, q: Union[str, None] = None, short: bool = False):
+@app.post("/reads",status_code=200)
+
+def create_read(read2: Read2):
+  read2= reads2.put(read2.dict())
+  return json.dumps(read2)
   item = {"item_id": item_id}
   if q:
     item.update({"q": q})

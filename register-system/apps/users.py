@@ -2,6 +2,8 @@ import streamlit as st
 import requests
 import json
 import pandas as pd
+import datetime
+from zoneinfo import ZoneInfo
 
 #endpoint= 'https://uo41eu.deta.dev'
 endpoint= 'https://1hl0lg.deta.dev'
@@ -9,13 +11,16 @@ endpoint= 'https://1hl0lg.deta.dev'
 def app():
     st.title('ユーザー登録')
 
+    tdatetime = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
+    tstr = tdatetime.strftime('%Y-%m-%d %H:%M:%S')
+
     with st.form(key='user'):
         name:str = st.text_input('ユーザー名',max_chars=20)
         id_:str = st.text_input('ID',max_chars=30)
         age:int = st.text_input('年齢','-',max_chars=3)
         hometown:str = st.text_input('出身','-',max_chars=15)
         register_place:str = st.text_input('登録場所','-',max_chars=15)
-        register_date:str = st.text_input('登録日','-',max_chars=15)
+        #register_date:str = st.text_input('登録日','-',max_chars=15)
         phone_number:str = st.text_input('電話番号','-',max_chars=15)
         register_date:str = 1111
         data={
@@ -24,7 +29,7 @@ def app():
             'age':age,
             'hometown':hometown,
             'register_place':register_place,
-            'register_date':register_date,
+            'register_date':tstr,
             'phone_number':phone_number
         }
         submit_button = st.form_submit_button(label='登録')
